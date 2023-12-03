@@ -28,10 +28,10 @@
                 <div id="topbar"></div>
 
 
-                <div class="container-fluid">
+                <div class="container w-50">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Crear Productos</h1>
+                    <h1 class="h3 mb-2">Crear Productos</h1>
 
                     <!-- Formulario de Creación de Productos -->
                     <div class="card shadow mb-4">
@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="nombre" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre del producto" required>
+                                    <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre del producto" pattern="[A-Za-z\s']+" required>
                                 </div>
 
                                 <div class="mb-3">
@@ -74,7 +74,16 @@
                                     <label for="descuento" class="form-label">Descuento</label>
                                     <input type="number" class="form-control" id="descuento" placeholder="Ingrese el descuento" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Crear Producto</button>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <button type="submit" class="btn btn-sm btn-danger">Cancelar</button>
+                                        </div>
+                                        <div class="col-6 text-end">
+                                            <button type="submit" class="btn btn-sm btn-primary">Crear producto</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
