@@ -26,7 +26,7 @@
                 <!-- Barra de Navegación Superior -->
                 <div id="topbar"></div>
 
-                <div class="container-fluid">
+                <div class="container w-50">
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Crear Puntos de Venta</h1>
@@ -59,7 +59,16 @@
                                     <label for="zona" class="form-label">Zona</label>
                                     <input type="text" class="form-control" id="zona" placeholder="Ingrese la zona" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Crear Punto de Venta</button>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <button type="submit" class="btn btn-sm btn-danger">Cancelar</button>
+                                        </div>
+                                        <div class="col-6 text-end">
+                                            <button type="submit" class="btn btn-sm btn-primary">Crear punto de venta</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
