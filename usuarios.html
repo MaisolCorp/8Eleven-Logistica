@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="usuario" class="form-label">Usuario</label>
-                                    <input type="email" class="form-control" id="usuario"
+                                    <input type="text" class="form-control" id="usuario"
                                         placeholder="Ingrese el correo electrónico" pattern="[A-Za-z\s']+" required>
                                     <div id="emailHelp" class="form-text">Comparte el correo electrónico con el
                                         trabajador.</div>
@@ -105,32 +105,39 @@
                 document.getElementById('topbar').innerHTML = data;
             });
 
-        function submitForm() {
-            console.log('submitForm');
-            const formData = {
-                nombre: document.getElementById('nombre').value,
-                apellido: document.getElementById('apellido').value,
-                usuario: document.getElementById('usuario').value,
-                password: document.getElementById('password').value,
-                rol: document.getElementById('rol').value
-            };
+            function submitForm() {
+    console.log('submitForm');
+    const formData = {
+        nombre: document.getElementById('nombre').value,
+        apellido: document.getElementById('apellido').value,
+        usuario: document.getElementById('usuario').value,
+        password: document.getElementById('password').value,
+        rol: document.getElementById('rol').value
+    };
 
-            fetch('http://localhost:3001/users/guardar-usuario', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            })
+    fetch('https://8eleven.glitch.me/api/users/guardar-usuario', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            alert('Usuario creado exitosamente');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al crear el usuario');
+        });
+}
 
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    alert('Producto creado exitosamente');
-                })
-                .catch(error => console.error('Error:', error));
-            alert('Error al crear el producto');
-        }
     </script>
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
