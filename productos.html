@@ -129,22 +129,27 @@
             descuento: document.getElementById('descuento').value
         };
 
-        fetch('http://localhost:3001/products/guardar-producto', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
+        fetch('https://8eleven.glitch.me/products/guardar-producto', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
         })
-        .then(response => response.json())
         .then(data => {
             console.log(data);
-            // agrega lógica para mostrar un mensaje de éxito
-            alert('Producto creado exitosamente');
-
+            alert('Usuario creado exitosamente');
         })
-        .catch(error => console.error('Error:', error));
-        alert('Error al crear el producto');
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al crear el usuario');
+        });
 
     }
     </script>
