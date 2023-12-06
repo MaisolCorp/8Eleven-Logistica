@@ -151,6 +151,12 @@
         }
 
 
+        // Cierra el modal después de la actualización
+        $('#editarPuntoVentaModal').modal('hide');
+    }
+
+
+
         function cargarPuntosVentas() {
             fetch('https://8eleven.glitch.me/puntosVentasRoutes/listar-puntos-ventas')
                 .then(response => response.json())
@@ -167,7 +173,8 @@
                             <td>${puntoVenta.nombre}</td>
                             <td>${puntoVenta.zona}</td>
                             <td>
-                                <button type="button" class="btn btn-sm m-1 btn-primary" data-bs-toggle="modal" data-bs-target="#editarPuntoVentaModal">Editar</button>
+                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                data-bs-target="#editarPuntoVentaModal" onclick="editarPuntoVenta(${JSON.stringify(puntoVenta)})">Editar</button>
                                 <button type="button" class="btn btn-sm btn-danger" onclick="eliminarPuntoVenta('${puntoVenta.nombre}')">Eliminar</button>
                             </td>
                         </tr>`;
