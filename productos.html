@@ -36,8 +36,7 @@
                     <!-- Formulario de Creación de Productos -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
-                            <form>
-                                <div class="mb-3">
+                            <form onsubmit="event.preventDefault(); submitForm();">                                <div class="mb-3">
                                     <label for="cod_barras" class="form-label">Código de Barras</label>
                                     <input type="text" class="form-control" id="cod_barras" placeholder="Ingrese el código de barras" required>
                                 </div>
@@ -118,15 +117,14 @@
 
         function submitForm() {
         const formData = {
-            cod_barras: document.getElementById('cod_barras').value,
-            nombre: document.getElementById('nombre').value,
-            imagen: document.getElementById('imagen').value,
-            precio_compra: document.getElementById('precio_compra').value,
-            precio_venta: document.getElementById('precio_venta').value,
-            precio_sugerido: document.getElementById('precio_sugerido').value,
-            stock: document.getElementById('stock').value,
-            estado: document.getElementById('estado').value,
-            descuento: document.getElementById('descuento').value
+            cod_barras: document.getElementById('cod_barras') ? document.getElementById('cod_barras').value : '',
+            nombre: document.getElementById('nombre') ? document.getElementById('nombre').value : '',
+            precio_compra: document.getElementById('precio_compra').value ? document.getElementById('precio_compra').value : '',
+            precio_venta: document.getElementById('precio_venta').value ? document.getElementById('precio_venta').value : '',
+            precio_sugerido: document.getElementById('precio_sugerido').value ? document.getElementById('precio_sugerido').value : '',
+            stock: document.getElementById('stock').value ? document.getElementById('stock').value : '',
+            estado: document.getElementById('estado').value ? document.getElementById('estado').value : '',
+            descuento: document.getElementById('descuento').value ? document.getElementById('descuento').value : ''
         };
 
         fetch('https://8eleven.glitch.me/products/guardar-producto', {
@@ -144,11 +142,11 @@
         })
         .then(data => {
             console.log(data);
-            alert('Usuario creado exitosamente');
+            alert('Producto creado exitosamente');
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Error al crear el usuario');
+            alert('Error al crear el producto');
         });
 
     }
