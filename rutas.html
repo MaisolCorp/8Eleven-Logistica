@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Registrar Rutas - 8Eleven</title>
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+
+        <!-- Barra Lateral (Sidebar) -->
+        <div id="sidebar"></div>
+
+        <!-- Contenido de la página -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+
+                <!-- Barra de Navegación Superior -->
+                <div id="topbar"></div>
+
+
+                <div class="container w-50 mt-5">
+                    <h1 class="h2 mb-2">Crear descuentos</h1>
+                    <form>
+                        <div class="mb-3">
+                            <label for="puntoSalida" class="form-label">Punto de Salida</label>
+                            <input type="text" class="form-control" id="puntoSalidaInput" placeholder="Ingrese punto de salida">
+                        </div>
+                        <div class="mb-3">
+                            <label for="puntoLlegada" class="form-label">Punto de Llegada</label>
+                            <input type="text" class="form-control" id="puntoLlegadaInput" placeholder="Ingrese punto de llegada">
+                        </div>
+                        <div class="mb-3">
+                            <label for="transportista" class="form-label">Transportista Asignado</label>
+                            <select class="form-select" id="transportista"></select>
+                        </div>                        
+                        <div id="map" style="height: 400px;"></div>
+                        <div class="mb-3">
+                            <label for="route-info" class="form-label">Información de la Ruta</label>
+                            <div id="route-info"></div>
+                        </div>                        
+                        <button type="button" class="btn btn-primary mt-3 mb-3" onclick="submitForm()">Guardar Ruta</button>
+                    </form>
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar').innerHTML = data;
+            });
+
+        fetch('topbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('topbar').innerHTML = data;
+            });
+
+        let map;
+        let puntoSalidaMarker;
+        let puntoLlegadaMarker;
+
+        function initMap() {
+            // Configuración del mapa
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 0, lng: 0 },
+                zoom: 2
+            });
+
+            // Configuración del autocompletado para el punto de salida
+            const puntoSalidaInput = document.getElementById('puntoSalidaInput');
+            const puntoSalidaAutocomplete = new google.maps.places.Autocomplete(puntoSalidaInput);
+
+            // Evento al seleccionar un lugar para el punto de salida
+            puntoSalidaAutocomplete.addListener('place_changed', function () {
+                const place = puntoSalidaAutocomplete.getPlace();
+                if (!place.geometry) {
+                    alert("No se encontraron detalles del lugar para el punto de salida");
+                    return;
+                }
+
+                // Mover el mapa y agregar un marcador para el punto de salida
+                map.setCenter(place.geometry.location);
+                if (puntoSalidaMarker) {
+                    puntoSalidaMarker.setMap(null);
+                }
+                puntoSalidaMarker = new google.maps.Marker({
+                    map: map,
+                    position: place.geometry.location,
+                    title: 'Punto de Salida'
+                });
+            });
+
+            // Configuración del autocompletado para el punto de llegada
+            const puntoLlegadaInput = document.getElementById('puntoLlegadaInput');
+            const puntoLlegadaAutocomplete = new google.maps.places.Autocomplete(puntoLlegadaInput);
+
+            // Evento al seleccionar un lugar para el punto de llegada
+            puntoLlegadaAutocomplete.addListener('place_changed', function () {
+                const place = puntoLlegadaAutocomplete.getPlace();
+                if (!place.geometry) {
+                    alert("No se encontraron detalles del lugar para el punto de llegada");
+                    return;
+                }
+
+                // Mover el mapa y agregar un marcador para el punto de llegada
+                map.setCenter(place.geometry.location);
+                if (puntoLlegadaMarker) {
+                    puntoLlegadaMarker.setMap(null);
+                }
+                puntoLlegadaMarker = new google.maps.Marker({
+                    map: map,
+                    position: place.geometry.location,
+                    title: 'Punto de Llegada'
+                });
+            });
+        }
+
+        function submitForm() {
+    // Obtén las ubicaciones de los marcadores para enviar al servidor
+    const puntoSalidaLocation = puntoSalidaMarker ? puntoSalidaMarker.getPosition() : null;
+    const puntoLlegadaLocation = puntoLlegadaMarker ? puntoLlegadaMarker.getPosition() : null;
+
+    if (puntoSalidaLocation && puntoLlegadaLocation) {
+        const directionsService = new google.maps.DirectionsService();
+        const directionsRenderer = new google.maps.DirectionsRenderer({
+            map: map,
+            suppressMarkers: true,
+        });
+
+        const request = {
+            origin: puntoSalidaLocation,
+            destination: puntoLlegadaLocation,
+            travelMode: 'DRIVING',
+        };
+
+        directionsService.route(request, function (result, status) {
+            if (status == 'OK') {
+                directionsRenderer.setDirections(result);
+
+                const route = result.routes[0];
+                const distance = route.legs[0].distance.text;
+                const duration = route.legs[0].duration.text;
+
+                const routeInfo = document.getElementById('route-info');
+                routeInfo.innerHTML = `<p>Distancia: ${distance}</p><p>Duración: ${duration}</p>`;
+
+                // Envía la información al servidor
+                const formData = {
+                    puntoSalida: puntoSalidaLocation.toJSON(),
+                    puntoLlegada: puntoLlegadaLocation.toJSON(),
+                    transportista: document.getElementById('transportista').value,
+                    distancia: distance,
+                    duracion: duration
+                };
+
+                fetch('https://8eleven.glitch.me/rutas/guardar-ruta', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data);
+                        alert('Ruta creada exitosamente');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error al crear la ruta');
+                    });
+            } else {
+                alert('No se pudo calcular la ruta. Status: ' + status);
+            }
+        });
+    } else {
+        alert('Por favor, selecciona un punto de salida y un punto de llegada.');
+    }
+}
+
+
+async function llenarSelectorTransportistas() {
+        const transportistas = await obtenerTransportistasDesdeServidor();
+        const transportistaSelector = document.getElementById('transportista');
+        if (!transportistaSelector) {
+        console.error("Elemento con id 'transportista' no encontrado");
+        return;
+    }
+
+        // Limpiar opciones anteriores
+        transportistaSelector.innerHTML = '';
+
+            // Agregar nueva opción por defecto
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';  // Otra opción puede ser asignar un valor específico
+        defaultOption.text = 'Seleccionar Transportista';
+        transportistaSelector.add(defaultOption);
+
+        // Agregar nuevas opciones
+        transportistas.forEach(transportista => {
+            const option = document.createElement('option');
+            option.value = transportista.nombre;
+            option.text = transportista.nombre;
+            transportistaSelector.add(option);
+        });
+    }
+
+    function obtenerTransportistasDesdeServidor() {
+        return fetch('https://8eleven.glitch.me/transportistas/listar-transportistas')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                return [];
+            });
+    }
+
+    function initPage() {
+        llenarSelectorTransportistas();
+        initMap();
+        submitForm();
+    }
+
+    window.onload = function () {
+    llenarSelectorTransportistas();
+};
+
+    // Usar DOMContentLoaded en lugar de onload
+    document.addEventListener('DOMContentLoaded', initPage);
+
+
+    </script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="js/sb-admin-2.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6gljlctTchDnY8RzqxRCC2hp07dSVUbw&libraries=places&callback=initMap"></script>
+
+</body>
+
+</html>
