@@ -36,7 +36,6 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Punto de Salida</th>
                                 <th>Punto de Llegada</th>
                                 <th>Transportista</th>
@@ -45,27 +44,7 @@
                         </thead>
                         <tbody id="cuerpoTabla"></tbody>
                     </table>
-                </div>
 
-                <!-- Modal para editar ruta -->
-                <div class="modal fade" id="editarRutaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Editar Ruta</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <!-- Formulario para editar la ruta -->
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="button" class="btn btn-primary">Guardar Cambios</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
     <!-- Scripts -->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -87,42 +66,111 @@
                 document.getElementById('topbar').innerHTML = data;
             });
 
-        function cargarRutas() {
-            fetch('https://8eleven.glitch.me/rutasRoute/listar-rutas')
-                .then(response => response.json())
-                .then(data => {
-                    const cuerpoTabla = document.getElementById('cuerpoTabla');
-                    cuerpoTabla.innerHTML = '';
+            function cargarRutas() {
+    fetch('https://8eleven.glitch.me/rutas/listar-rutas')
+        .then(response => response.json())
+        .then(data => {
+            const cuerpoTabla = document.getElementById('cuerpoTabla');
+            cuerpoTabla.innerHTML = '';
 
-                    data.forEach(ruta => {
+            // Mapear las promesas de obtenerDirecciones
+            const direccionesPromises = data.map(ruta =>
+                Promise.all([
+                    obtenerDireccion(ruta.puntoSalida.lat, ruta.puntoSalida.lng),
+                    obtenerDireccion(ruta.puntoLlegada.lat, ruta.puntoLlegada.lng)
+                ])
+            );
+
+            // Esperar a que todas las promesas se resuelvan
+            Promise.all(direccionesPromises)
+                .then(direcciones => {
+                    // Iterar sobre los resultados y construir la tabla
+                    data.forEach((ruta, index) => {
                         const fila = `<tr>
-                            <td>${ruta.id}</td>
-                            <td>${ruta.puntoSalida}</td>
-                            <td>${ruta.puntoLlegada}</td>
+                            <td>${direcciones[index][0]}</td>
+                            <td>${direcciones[index][1]}</td>
                             <td>${ruta.transportista}</td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#editarRutaModal"
-                                    onclick="editarRuta(${ruta.id})">Editar</button>
-                                <button type="button" class="btn btn-sm btn-danger" onclick="eliminarRuta(${ruta.id})">Eliminar</button>
+                                <button type="button" class="btn btn-sm btn-danger" onclick="eliminarRuta('${ruta.transportista}')">Eliminar</button>
                             </td>
                         </tr>`;
                         cuerpoTabla.innerHTML += fila;
                     });
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error al cargar la lista de rutas');
+                    console.error('Error al obtener direcciones:', error);
                 });
-        }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al cargar la lista de rutas');
+        });
+}
 
-        function editarRuta(id) {
-            // Lógica para cargar los datos de la ruta en el modal de edición
-        }
+                        function obtenerDireccion(lat, lng) {
+    const apiKey = 'AIzaSyB6gljlctTchDnY8RzqxRCC2hp07dSVUbw';  // Reemplaza con tu clave de API de Google Maps
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
 
-        function eliminarRuta(id) {
-            // Lógica para eliminar la ruta del servidor
-            // Utiliza fetch y luego vuelve a cargar la lista de rutas llamando a cargarRutas()
-        }
+    return fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.results && data.results.length > 0) {
+                return data.results[0].formatted_address;
+            } else {
+                throw new Error('Dirección no encontrada');
+            }
+        })
+        .catch(error => {
+            console.error('Error al obtener la dirección:', error);
+            return 'Dirección no disponible';
+        });
+}
+
+function eliminarRuta(nombre) {
+    fetch(`https://8eleven.glitch.me/rutas/eliminar-ruta/${nombre}`, {
+        method: 'DELETE'
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            alert('Ruta eliminada exitosamente');
+            cargarRutas(); // Vuelve a cargar la lista de rutas después de la eliminación
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al eliminar la ruta');
+        });
+}
+
+function obtenerCoordenadas(coordenadasString) {
+    // Esta función puede necesitar ajustes según el formato de tus coordenadas
+    const coordenadasArray = coordenadasString.split(',').map(coord => parseFloat(coord.trim()));
+    return {
+        lat: coordenadasArray[0],
+        lng: coordenadasArray[1]
+    };
+}
+
+
+        function cargarDatosRutaEnModal(id) {
+        fetch(`https://8eleven.glitch.me/rutas/detalle-ruta/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('editPuntoSalida').value = `${data.puntoSalida.lat}, ${data.puntoSalida.lng}`;
+            document.getElementById('editPuntoLlegada').value = `${data.puntoLlegada.lat}, ${data.puntoLlegada.lng}`;
+            document.getElementById('editTransportista').value = data.transportista;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al cargar los detalles de la ruta');
+        });
+}
+
 
         document.addEventListener("DOMContentLoaded", function () {
             cargarRutas();

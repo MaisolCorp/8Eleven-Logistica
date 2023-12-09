@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Gestión de Puntos de Venta - 8Eleven</title>
+    <title>Gestión de Transportistas - 8Eleven</title>
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -24,210 +24,182 @@
                 <div id="topbar"></div>
 
                 <div class="container mt-5">
-                    <h1 class="h3 mb-2 text-gray-800">Gestión de Puntos de Venta</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Gestión de Transportistas</h1>
 
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>País</th>
-                                        <th>Estado</th>
-                                        <th>Municipio</th>
-                                        <th>C.P</th>
-                                        <th>Nombre</th>
-                                        <th>Zona</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tablaPuntosVentas">
-                                    <!-- Aquí se cargarán dinámicamente los puntos de venta -->
-                                </tbody>
-                            </table>
+                    <!-- Tabla para mostrar los transportistas -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Teléfono</th>
+                                <th>Correo Electrónico</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaTransportistas"></tbody>
+                    </table>
+
+                    <!-- Modal para editar transportista -->
+                    <div class="modal fade" id="editarTransportistaModal" tabindex="-1" role="dialog"
+                        aria-labelledby="editarTransportistaModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editarTransportistaModalLabel">Editar Transportista</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Formulario para editar transportista -->
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="editNombre" class="form-label">Nombre</label>
+                                            <input type="text" class="form-control" id="editNombre" placeholder="Nombre del transportista">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editTelefono" class="form-label">Teléfono</label>
+                                            <input type="tel" class="form-control" id="editTelefono" placeholder="Teléfono del transportista">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editCorreo" class="form-label">Correo Electrónico</label>
+                                            <input type="email" class="form-control" id="editCorreo" placeholder="Correo electrónico del transportista">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-primary" onclick="actualizarTransportista()">Guardar Cambios</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                                    <!-- Script para cargar la lista de transportistas y gestionar acciones -->
+                <script>
+                    // Cargar contenido dinámico de la barra lateral
+                    fetch('sidebar.html?' + new Date().getTime())
+                        .then(response => response.text())
+                        .then(data => {
+                            document.getElementById('sidebar').innerHTML = data;
+                        });
 
-            </div>
-            <footer class="sticky-footer bg-white">
-            </footer>
-        </div>
-    </div>
+                    // Cargar contenido dinámico de la barra de navegación superior
+                    fetch('topbar.html?' + new Date().getTime())
+                        .then(response => response.text())
+                        .then(data => {
+                            document.getElementById('topbar').innerHTML = data;
+                        });
 
-    <div class="modal fade" id="editarPuntoVentaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Editar Punto de Venta</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="modalBody">
-                    <div id="detallePuntoVentaContent"></div>
-                    <div class="card-body">
-                            <div class="mb-3">
-                                <label for="pais" class="form-label">País</label>
-                                <input type="text" class="form-control" id="pais" placeholder="Ingrese el país" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="estado" class="form-label">Estado</label>
-                                <input type="text" class="form-control" id="estado" placeholder="Ingrese el estado" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="municipio" class="form-label">Municipio</label>
-                                <input type="text" class="form-control" id="municipio" placeholder="Ingrese el municipio" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="cp" class="form-label">Código Postal (C.P)</label>
-                                <input type="text" class="form-control" id="cp" placeholder="Ingrese el código postal" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre del Punto de Venta</label>
-                                <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre del punto de venta" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="zona" class="form-label">Zona</label>
-                                <input type="text" class="form-control" id="zona" placeholder="Ingrese la zona" required>
-                            </div>
-                            <div class="container-fluid">
-                                <div class="row">
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="actualizarPuntoVenta()">Actualizar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+                    function cargarDetalleTransportista(nombreTransportista) {
+                        fetch(`https://8eleven.glitch.me/transportistas/detalle-transportista/${encodeURIComponent(nombreTransportista)}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                document.getElementById('editNombre').value = data.nombre;
+                                document.getElementById('editTelefono').value = data.telefono;
+                                document.getElementById('editCorreo').value = data.correo;
 
-    <script>
-fetch('sidebar.html?' + new Date().getTime())
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('sidebar').innerHTML = data;
-    });
+                                $('#editarTransportistaModal').modal('show');
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Error al cargar los detalles del transportista');
+                            });
+                    }
 
-fetch('topbar.html?' + new Date().getTime())
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('topbar').innerHTML = data;
-    });
+                    function actualizarTransportista() {
+                        const formData = {
+                            nombre: document.getElementById('editNombre').value,
+                            telefono: document.getElementById('editTelefono').value,
+                            correo: document.getElementById('editCorreo').value,
+                        };
 
-            function cargarDetallePuntoVenta(nombrePuntoVenta) {
-        fetch(`https://8eleven.glitch.me/puntosVentasRoutes/detalle-punto-venta/${encodeURIComponent(nombrePuntoVenta)}`)
-            .then(response => response.json())
-            .then(data => {
-                const detallePuntoVentaContent = document.getElementById('detallePuntoVentaContent');
-                detallePuntoVentaContent.innerHTML = '';
-                document.getElementById('pais').value = data.pais;
-document.getElementById('estado').value = data.estado;
-document.getElementById('municipio').value = data.municipio;
-document.getElementById('cp').value = data.cp;
-document.getElementById('nombre').value = data.nombre;
-document.getElementById('zona').value = data.zona;
+                        fetch('https://8eleven.glitch.me/transportistas/actualizar-transportista', {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(formData),
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! Status: ${response.status}`);
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                console.log(data);
+                                alert('Transportista actualizado exitosamente');
+                                $('#editarTransportistaModal').modal('hide');
+                                cargarTransportistas();
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Error en la actualización del transportista');
+                            });
+                    }
 
-                $('#detallePuntoVentaModal').modal('show'); // Abre el modal después de cargar los detalles
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error al cargar los detalles del punto de venta');
-            });
-    }
+                    function cargarTransportistas() {
+                        fetch('https://8eleven.glitch.me/transportistas/listar-transportistas')
+                            .then(response => response.json())
+                            .then(data => {
+                                const tablaTransportistas = document.getElementById('tablaTransportistas');
+                                tablaTransportistas.innerHTML = '';
 
-        function actualizarPuntoVenta() {
-            const formData = {
-        pais: document.getElementById('pais').value,
-        estado: document.getElementById('estado').value,
-        municipio: document.getElementById('municipio').value,
-        cp: document.getElementById('cp').value,
-        nombre: document.getElementById('nombre').value,
-        zona: document.getElementById('zona').value,
-};
-fetch('https://8eleven.glitch.me/puntosVentasRoutes/actualizar-punto-venta', {
-    method: 'PUT',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(formData)
-})
-.then(response => {
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    return response.json();
-})
-.then(data => {
-    console.log(data);
-    alert('Producto actualizado exitosamente');
-    $('#editarProductoModal').modal('hide');
-    cargarPuntosVentas();
-})
-.catch(error => {
-    console.error('Error:', error);
-    alert('Error en la actualización del producto');
-});
-        }
+                                data.forEach(transportista => {
+                                    const fila = `<tr>
+                                        <td>${transportista.nombre}</td>
+                                        <td>${transportista.telefono}</td>
+                                        <td>${transportista.correo}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                                data-bs-target="#editarTransportistaModal"
+                                                onclick="cargarDetalleTransportista('${transportista.nombre}')">Editar</button>
+                                            <button type="button" class="btn btn-sm btn-danger"
+                                                onclick="eliminarTransportista('${transportista.nombre}')">Eliminar</button>
+                                        </td>
+                                    </tr>`;
+                                    tablaTransportistas.innerHTML += fila;
+                                });
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Error al cargar la lista de transportistas');
+                            });
+                    }
 
-        function cargarPuntosVentas() {
-            fetch('https://8eleven.glitch.me/puntosVentasRoutes/listar-puntos-ventas')
-                .then(response => response.json())
-                .then(data => {
-                    const tablaPuntosVentas = document.getElementById('tablaPuntosVentas');
-                    tablaPuntosVentas.innerHTML = '';
-
-                    data.forEach(puntoVenta => {
-                        const fila = `<tr>
-                            <td>${puntoVenta.pais}</td>
-                            <td>${puntoVenta.estado}</td>
-                            <td>${puntoVenta.municipio}</td>
-                            <td>${puntoVenta.cp}</td>
-                            <td>${puntoVenta.nombre}</td>
-                            <td>${puntoVenta.zona}</td>
-                            <td>
-                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                data-bs-target="#editarPuntoVentaModal"
-                                onclick="cargarDetallePuntoVenta('${puntoVenta.nombre}')">Editar</button>
-                                <button type="button" class="btn btn-sm btn-danger" onclick="eliminarPuntoVenta('${puntoVenta.nombre}')">Eliminar</button>
-                            </td>
-                        </tr>`;
-                        tablaPuntosVentas.innerHTML += fila;
-                    });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error al cargar la lista de puntos de venta');
-                });
-        }
-
-        function eliminarPuntoVenta(nombre) {
-            if (confirm('¿Estás seguro de eliminar este punto de venta?')) {
-                fetch(`https://8eleven.glitch.me/puntosVentasRoutes/eliminar-punto-venta/${nombre}`, {
-                    method: 'DELETE'
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status: ${response.status}`);
+                    function eliminarTransportista(nombreTransportista) {
+                        if (confirm('¿Estás seguro de eliminar este transportista?')) {
+                            fetch(`https://8eleven.glitch.me/transportistas/eliminar-transportista/${nombreTransportista}`, {
+                                method: 'DELETE',
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error(`HTTP error! Status: ${response.status}`);
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    console.log(data);
+                                    alert('Transportista eliminado exitosamente');
+                                    cargarTransportistas();
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert('Error al eliminar el transportista');
+                                });
                         }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data);
-                        alert('Punto de venta eliminado exitosamente');
-                        cargarPuntosVentas(); // Recargar la lista después de eliminar
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error al eliminar el punto de venta');
-                    });
-            }
-        }
+                    }
 
-        cargarPuntosVentas();
-    </script>
+                    cargarTransportistas();
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="js/sb-admin-2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="js/sb-admin-2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
+
