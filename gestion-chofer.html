@@ -116,18 +116,7 @@
                             },
                             buttonsStyling: false
                         });
-                        fetch('sidebar.html?' + new Date().getTime())
-                            .then(response => response.text())
-                            .then(data => {
-                                document.getElementById('sidebar').innerHTML = data;
-                            });
-
-                        fetch('topbar.html?' + new Date().getTime())
-                            .then(response => response.text())
-                            .then(data => {
-                                document.getElementById('topbar').innerHTML = data;
-                            });
-
+                    
                         function cargarDetallePuntoVenta(nombrePuntoVenta) {
                             fetch(`https://8eleven.glitch.me/puntosVentasRoutes/detalle-punto-venta/${encodeURIComponent(nombrePuntoVenta)}`)
                                 .then(response => response.json())
