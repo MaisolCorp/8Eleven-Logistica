@@ -154,16 +154,16 @@
 
                 <div class="container-fluid">
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2">Gestión de Rutas</h1>                    
-                        <!-- Loader -->
-                        <div id="loader" class="d-none position-absolute top-50 start-50 ">
-                            <!-- Puedes personalizar el contenido del loader aquí -->
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="sr-only">Cargando...</span>
-                            </div>
+                    <h1 class="h3 mb-2">Gestión de Rutas</h1>
+                    <!-- Loader -->
+                    <div id="loader" class="d-none position-absolute top-50 start-50 ">
+                        <!-- Puedes personalizar el contenido del loader aquí -->
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Cargando...</span>
                         </div>
-                        
-                        <!-- Tabla de Rutas -->
+                    </div>
+
+                    <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -175,6 +175,8 @@
                             </thead>
                             <tbody id="cuerpoTabla"></tbody>
                         </table>
+                    </div>
+
                 </div>
 
                 <!-- Scripts -->
@@ -233,10 +235,10 @@
                                 });
                             });
 
-                            document.getElementById("loader").classList.remove("d-none");
-                            setTimeout(function(){
-                                document.getElementById("loader").classList.add("d-none");
-                            }, 1000);
+                        document.getElementById("loader").classList.remove("d-none");
+                        setTimeout(function () {
+                            document.getElementById("loader").classList.add("d-none");
+                        }, 1000);
 
                     }
 

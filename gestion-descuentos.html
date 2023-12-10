@@ -2,71 +2,173 @@
 <html lang="en">
 
 <head>
-    <<<<<<< HEAD <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <title>Gestión de Usuarios - 8Eleven</title>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Gestión de Usuarios - 8Eleven</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
-        <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/sb-admin-2.min.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <link rel="stylesheet" href="css/styles.css">
-        =======
-        <!-- Tus metadatos y enlaces de estilo aquí -->
-        >>>>>>> main
 </head>
 
 <body id="page-top">
     <div id="wrapper">
 
         <!-- Barra Lateral (Sidebar) -->
-        <div id="sidebar"></div>
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="sidebar-brand-text">8Eleven Logística</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Módulos
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-plus"></i>
+                    <span>Crear</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Crear:</h6>
+                        <a class="collapse-item" href="rutas.html">Rutas</a>
+                        <a class="collapse-item" href="descuentos.html">Descuentos</a>
+                        <a class="collapse-item" href="chofer.html">Transportistas</a>
+                    </div>
+                </div>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Gestionar</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Opciones:</h6>
+                        <a class="collapse-item" href="gestion-rutas.html">Rutas</a>
+                        <a class="collapse-item" href="gestion-descuentos.html">Descuentos</a>
+                        <a class="collapse-item" href="gestion-chofer.html">Transportistas</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
         <!-- Contenido de la página -->
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
 
                 <!-- Barra de Navegación Superior -->
-                <div id="topbar"></div>
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">SuperAdmin</span>
 
-                <div class="container w-50">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Cerrar sesión
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="container w-auto">
                     <!-- Page Heading -->
                     <h1 class="h2 mb-2">Eliminar Descuento</h1>
 
-                    <!-- Tabla para mostrar los productos -->
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Código de Barras</th>
-                                <th>Nombre</th>
-                                <th>Precio Actual</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaProductos"></tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Código de Barras</th>
+                                    <th>Nombre</th>
+                                    <th>Precio Actual</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaProductos"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Función para cargar dinámicamente el contenido de la barra lateral
-        fetch('sidebar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('sidebar').innerHTML = data;
-            });
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success m-2",
+                cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: false
+        });
 
-        // Función para cargar dinámicamente el contenido de la barra de navegación superior
-        fetch('topbar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('topbar').innerHTML = data;
-            });
 
         async function obtenerProductosDesdeServidor() {
             try {
@@ -95,7 +197,7 @@
 
         function eliminarDescuento(codBarras) {
             if (!codBarras) {
-                alert('Por favor, seleccione un producto.');
+                Swal.fire('Error', 'Por favor, seleccione un producto.', 'error');
                 return;
             }
 
@@ -111,15 +213,16 @@
                 })
                 .then(data => {
                     console.log(data);
-                    alert('Descuento eliminado correctamente. Precio restaurado al original.');
+                    Swal.fire('Éxito', 'Descuento eliminado correctamente. Precio restaurado al original.', 'success');
                     // Actualizar la tabla después de restablecer el precio
                     llenarTablaProductos();
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Error al eliminar el descuento');
+                    Swal.fire('Error', 'Error al restablecer el precio original del producto.', 'error');
                 });
         }
+
 
 
         async function llenarTablaProductos() {
@@ -148,8 +251,8 @@
 
                     // Crear botón de eliminar y asignar la función correspondiente
                     const btnEliminar = document.createElement('button');
-                    btnEliminar.textContent = 'Eliminar Descuento';
-                    btnEliminar.className = 'btn btn-danger';
+                    btnEliminar.textContent = 'Eliminar';
+                    btnEliminar.className = 'btn btn-danger btn-sm';
                     btnEliminar.addEventListener('click', () => {
                         eliminarDescuento(producto.cod_barras);
                     });

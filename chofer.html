@@ -138,7 +138,7 @@
                     </ul>
                 </nav>
 
-                <div class="container w-50">
+                <div class="container w-auto">
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Registrar Transportista</h1>
@@ -206,7 +206,7 @@
                 })
                 .then(data => {
                     console.log(data);
-                    Swal.alert({
+                    Swal.fire({
                         title: "Transportista creado",
                         text: "El transportista se ha creado correctamente",
                         icon: "success",

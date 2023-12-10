@@ -237,7 +237,11 @@
             puntoLlegadaAutocomplete.addListener('place_changed', function () {
                 const place = puntoLlegadaAutocomplete.getPlace();
                 if (!place.geometry) {
-                    alert("No se encontraron detalles del lugar para el punto de llegada");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se encontraron detalles del lugar para el punto de llegada'
+                    });
                     return;
                 }
 
