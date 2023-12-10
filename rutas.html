@@ -7,75 +7,193 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Registrar Rutas - 8Eleven</title>
+    <title>Crear rutas - 8Eleven</title>
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body id="page-top">
     <div id="wrapper">
 
         <!-- Barra Lateral (Sidebar) -->
-        <div id="sidebar"></div>
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="sidebar-brand-text">8Eleven Logística</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Módulos
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-plus"></i>
+                    <span>Crear</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Crear:</h6>
+                        <a class="collapse-item" href="rutas.html">Rutas</a>
+                        <a class="collapse-item" href="descuentos.html">Descuentos</a>
+                        <a class="collapse-item" href="chofer.html">Transportistas</a>
+                    </div>
+                </div>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Gestionar</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Opciones:</h6>
+                        <a class="collapse-item" href="gestion-rutas.html">Rutas</a>
+                        <a class="collapse-item" href="gestion-descuentos.html">Descuentos</a>
+                        <a class="collapse-item" href="gestion-chofer.html">Transportistas</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
 
         <!-- Contenido de la página -->
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
 
                 <!-- Barra de Navegación Superior -->
-                <div id="topbar"></div>
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">SuperAdmin</span>
 
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Perfil
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Ajustes
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Actividad
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Cerrar sesión
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
 
-                <div class="container w-50 mt-5">
-                    <h1 class="h2 mb-2">Crear Ruta</h1>
+                <div class="container w-auto mt-5">
+                    <h1 class="h2 mb-2">Crear ruta</h1>
                     <form>
                         <div class="mb-3">
-                            <label for="puntoSalida" class="form-label">Punto de Salida</label>
-                            <input type="text" class="form-control" id="puntoSalidaInput" placeholder="Ingrese punto de salida">
+                            <label for="puntoSalida" class="form-label">Punto de salida</label>
+                            <input type="text" class="form-control" id="puntoSalidaInput"
+                                placeholder="Ingrese punto de salida" required>
                         </div>
                         <div class="mb-3">
-                            <label for="puntoLlegada" class="form-label">Punto de Llegada</label>
-                            <input type="text" class="form-control" id="puntoLlegadaInput" placeholder="Ingrese punto de llegada">
+                            <label for="puntoLlegada" class="form-label">Punto de llegada</label>
+                            <input type="text" class="form-control" id="puntoLlegadaInput"
+                                placeholder="Ingrese punto de llegada" required>
                         </div>
                         <div class="mb-3">
-                            <label for="transportista" class="form-label">Transportista Asignado</label>
-                            <select class="form-select" id="transportista"></select>
-                        </div>                        
+                            <label for="transportista" class="form-label">Transportista asignado</label>
+                            <select class="form-select" id="transportista" required></select>
+                        </div>
                         <div id="map" style="height: 400px;"></div>
                         <div class="mb-3">
-                            <label for="route-info" class="form-label">Información de la Ruta</label>
+                            <label for="route-info" class="form-label">Información de la ruta</label>
                             <div id="route-info"></div>
-                        </div>                        
-                        <button type="button" class="btn btn-primary mt-3 mb-3" onclick="submitForm()">Guardar Ruta</button>
+                        </div>
+                        <button type="button" class="btn btn-primary mt-3 mb-3" onclick="submitForm()">Guardar
+                            Ruta</button>
                     </form>
                 </div>
-
             </div>
-            
         </div>
     </div>
 
     <script>
-        fetch('sidebar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('sidebar').innerHTML = data;
-            });
-
-        fetch('topbar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('topbar').innerHTML = data;
-            });
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success m-2",
+                cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: false
+        });
 
         let map;
         let puntoSalidaMarker;
         let puntoLlegadaMarker;
 
         function initMap() {
-            // Configuración del mapa
             map = new google.maps.Map(document.getElementById('map'), {
                 center: { lat: 0, lng: 0 },
                 zoom: 2
@@ -89,7 +207,12 @@
             puntoSalidaAutocomplete.addListener('place_changed', function () {
                 const place = puntoSalidaAutocomplete.getPlace();
                 if (!place.geometry) {
-                    alert("No se encontraron detalles del lugar para el punto de salida");
+                    // Utilizar SweetAlert para mostrar un mensaje de error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se encontraron detalles del lugar para el punto de salida'
+                    });
                     return;
                 }
 
@@ -113,7 +236,11 @@
             puntoLlegadaAutocomplete.addListener('place_changed', function () {
                 const place = puntoLlegadaAutocomplete.getPlace();
                 if (!place.geometry) {
-                    alert("No se encontraron detalles del lugar para el punto de llegada");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se encontraron detalles del lugar para el punto de llegada'
+                    });
                     return;
                 }
 
@@ -131,126 +258,150 @@
         }
 
         function submitForm() {
-    // Obtén las ubicaciones de los marcadores para enviar al servidor
-    const puntoSalidaLocation = puntoSalidaMarker ? puntoSalidaMarker.getPosition() : null;
-    const puntoLlegadaLocation = puntoLlegadaMarker ? puntoLlegadaMarker.getPosition() : null;
+            // Obtén las ubicaciones de los marcadores para enviar al servidor
+            const puntoSalidaLocation = puntoSalidaMarker ? puntoSalidaMarker.getPosition() : null;
+            const puntoLlegadaLocation = puntoLlegadaMarker ? puntoLlegadaMarker.getPosition() : null;
 
-    if (puntoSalidaLocation && puntoLlegadaLocation) {
-        const directionsService = new google.maps.DirectionsService();
-        const directionsRenderer = new google.maps.DirectionsRenderer({
-            map: map,
-            suppressMarkers: true,
-        });
-
-        const request = {
-            origin: puntoSalidaLocation,
-            destination: puntoLlegadaLocation,
-            travelMode: 'DRIVING',
-        };
-
-        directionsService.route(request, function (result, status) {
-            if (status == 'OK') {
-                directionsRenderer.setDirections(result);
-
-                const route = result.routes[0];
-                const distance = route.legs[0].distance.text;
-                const duration = route.legs[0].duration.text;
-
-                const routeInfo = document.getElementById('route-info');
-                routeInfo.innerHTML = `<p>Distancia: ${distance}</p><p>Duración: ${duration}</p>`;
-
-                // Envía la información al servidor
-                const formData = {
-                    puntoSalida: puntoSalidaLocation.toJSON(),
-                    puntoLlegada: puntoLlegadaLocation.toJSON(),
-                    transportista: document.getElementById('transportista').value,
-                    distancia: distance,
-                    duracion: duration
-                };
-
-                fetch('https://8eleven.glitch.me/rutas/guardar-ruta', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data);
-                        alert('Ruta creada exitosamente');
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error al crear la ruta');
-                    });
-            } else {
-                alert('No se pudo calcular la ruta. Status: ' + status);
+            // Validación: Asegúrate de que haya puntos de salida y llegada definidos
+            if (!puntoSalidaLocation || !puntoLlegadaLocation) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Ubicaciones no definidas',
+                    text: 'Por favor, seleccione puntos de salida y llegada en el mapa',
+                });
+                return;
             }
-        });
-    } else {
-        alert('Por favor, selecciona un punto de salida y un punto de llegada.');
-    }
-}
+
+            const directionsService = new google.maps.DirectionsService();
+            const directionsRenderer = new google.maps.DirectionsRenderer({
+                map: map,
+                suppressMarkers: true,
+            });
+
+            const request = {
+                origin: puntoSalidaLocation,
+                destination: puntoLlegadaLocation,
+                travelMode: 'DRIVING',
+            };
+
+            directionsService.route(request, function (result, status) {
+                if (status == 'OK') {
+                    directionsRenderer.setDirections(result);
+
+                    const route = result.routes[0];
+                    const distance = route.legs[0].distance.text;
+                    const duration = route.legs[0].duration.text;
+
+                    const routeInfo = document.getElementById('route-info');
+                    routeInfo.innerHTML = `<p>Distancia: ${distance}</p><p>Duración: ${duration}</p>`;
+
+                    // Envía la información al servidor
+                    const formData = {
+                        puntoSalida: puntoSalidaLocation.toJSON(),
+                        puntoLlegada: puntoLlegadaLocation.toJSON(),
+                        transportista: document.getElementById('transportista').value,
+                        distancia: distance,
+                        duracion: duration
+                    };
+
+                    fetch('https://8eleven.glitch.me/rutas/guardar-ruta', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log(data);
+                            // Utiliza SweetAlert para mostrar un mensaje de éxito
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Ruta creada',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            // Utiliza SweetAlert para mostrar un mensaje de error
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error al crear la ruta'
+                            });
+                        });
+                } else {
+                    // Utiliza SweetAlert para mostrar un mensaje de error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: `No se pudo calcular la ruta. Status: ${status}`
+                    });
+                }
+            });
+        }
 
 
-async function llenarSelectorTransportistas() {
-        const transportistas = await obtenerTransportistasDesdeServidor();
-        const transportistaSelector = document.getElementById('transportista');
-        if (!transportistaSelector) {
-        console.error("Elemento con id 'transportista' no encontrado");
-        return;
-    }
 
-        // Limpiar opciones anteriores
-        transportistaSelector.innerHTML = '';
+
+        async function llenarSelectorTransportistas() {
+            const transportistas = await obtenerTransportistasDesdeServidor();
+            const transportistaSelector = document.getElementById('transportista');
+            if (!transportistaSelector) {
+                console.error("Elemento con id 'transportista' no encontrado");
+                return;
+            }
+
+            // Limpiar opciones anteriores
+            transportistaSelector.innerHTML = '';
 
             // Agregar nueva opción por defecto
-        const defaultOption = document.createElement('option');
-        defaultOption.value = '';  // Otra opción puede ser asignar un valor específico
-        defaultOption.text = 'Seleccionar Transportista';
-        transportistaSelector.add(defaultOption);
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';  // Otra opción puede ser asignar un valor específico
+            defaultOption.text = 'Seleccionar Transportista';
+            transportistaSelector.add(defaultOption);
 
-        // Agregar nuevas opciones
-        transportistas.forEach(transportista => {
-            const option = document.createElement('option');
-            option.value = transportista.nombre;
-            option.text = transportista.nombre;
-            transportistaSelector.add(option);
-        });
-    }
-
-    function obtenerTransportistasDesdeServidor() {
-        return fetch('https://8eleven.glitch.me/transportistas/listar-transportistas')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                return [];
+            // Agregar nuevas opciones
+            transportistas.forEach(transportista => {
+                const option = document.createElement('option');
+                option.value = transportista.nombre;
+                option.text = transportista.nombre;
+                transportistaSelector.add(option);
             });
-    }
+        }
 
-    function initPage() {
-        llenarSelectorTransportistas();
-        initMap();
-        submitForm();
-    }
+        function obtenerTransportistasDesdeServidor() {
+            return fetch('https://8eleven.glitch.me/transportistas/listar-transportistas')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    return [];
+                });
+        }
 
-    window.onload = function () {
-    llenarSelectorTransportistas();
-};
+        function initPage() {
+            llenarSelectorTransportistas();
+            initMap();
+            submitForm();
+        }
 
-    // Usar DOMContentLoaded en lugar de onload
-    document.addEventListener('DOMContentLoaded', initPage);
+        window.onload = function () {
+            llenarSelectorTransportistas();
+        };
+
+        // Usar DOMContentLoaded en lugar de onload
+        document.addEventListener('DOMContentLoaded', initPage);
 
 
     </script>
@@ -258,7 +409,8 @@ async function llenarSelectorTransportistas() {
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/sb-admin-2.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6gljlctTchDnY8RzqxRCC2hp07dSVUbw&libraries=places&callback=initMap"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6gljlctTchDnY8RzqxRCC2hp07dSVUbw&libraries=places&callback=initMap"></script>
 
 </body>
 
