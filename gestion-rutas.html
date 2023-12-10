@@ -190,8 +190,6 @@
 
 
                     function cargarRutas() {
-                        document.getElementById("loader").classList.remove("d-none");
-
                         fetch('https://8eleven.glitch.me/rutas/listar-rutas')
                             .then(response => response.json())
                             .then(data => {
@@ -234,6 +232,12 @@
                                     text: 'Error al cargar las rutas'
                                 });
                             });
+
+                            document.getElementById("loader").classList.remove("d-none");
+                            setTimeout(function(){
+                                document.getElementById("loader").classList.add("d-none");
+                            }, 1000);
+
                     }
 
                     function obtenerDireccion(lat, lng) {
