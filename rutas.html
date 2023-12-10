@@ -8,7 +8,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Crear rutas - 8Eleven</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -263,82 +262,91 @@
             const puntoSalidaLocation = puntoSalidaMarker ? puntoSalidaMarker.getPosition() : null;
             const puntoLlegadaLocation = puntoLlegadaMarker ? puntoLlegadaMarker.getPosition() : null;
 
-            if (puntoSalidaLocation && puntoLlegadaLocation) {
-                const directionsService = new google.maps.DirectionsService();
-                const directionsRenderer = new google.maps.DirectionsRenderer({
-                    map: map,
-                    suppressMarkers: true,
+            // Validación: Asegúrate de que haya puntos de salida y llegada definidos
+            if (!puntoSalidaLocation || !puntoLlegadaLocation) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Ubicaciones no definidas',
+                    text: 'Por favor, seleccione puntos de salida y llegada en el mapa',
                 });
-
-                const request = {
-                    origin: puntoSalidaLocation,
-                    destination: puntoLlegadaLocation,
-                    travelMode: 'DRIVING',
-                };
-
-                directionsService.route(request, function (result, status) {
-                    if (status == 'OK') {
-                        directionsRenderer.setDirections(result);
-
-                        const route = result.routes[0];
-                        const distance = route.legs[0].distance.text;
-                        const duration = route.legs[0].duration.text;
-
-                        const routeInfo = document.getElementById('route-info');
-                        routeInfo.innerHTML = `<p>Distancia: ${distance}</p><p>Duración: ${duration}</p>`;
-
-                        // Envía la información al servidor
-                        const formData = {
-                            puntoSalida: puntoSalidaLocation.toJSON(),
-                            puntoLlegada: puntoLlegadaLocation.toJSON(),
-                            transportista: document.getElementById('transportista').value,
-                            distancia: distance,
-                            duracion: duration
-                        };
-
-                        fetch('https://8eleven.glitch.me/rutas/guardar-ruta', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(formData)
-                        })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error(`HTTP error! Status: ${response.status}`);
-                                }
-                                return response.json();
-                            })
-                            .then(data => {
-                                console.log(data);
-                                // Utiliza SweetAlert para mostrar un mensaje de éxito
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Ruta creada exitosamente',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                });
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                // Utiliza SweetAlert para mostrar un mensaje de error
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Error',
-                                    text: 'Error al crear la ruta'
-                                });
-                            });
-                    } else {
-                        // Utiliza SweetAlert para mostrar un mensaje de error
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: `No se pudo calcular la ruta. Status: ${status}`
-                        });
-                    }
-                });
+                return;
             }
+
+            const directionsService = new google.maps.DirectionsService();
+            const directionsRenderer = new google.maps.DirectionsRenderer({
+                map: map,
+                suppressMarkers: true,
+            });
+
+            const request = {
+                origin: puntoSalidaLocation,
+                destination: puntoLlegadaLocation,
+                travelMode: 'DRIVING',
+            };
+
+            directionsService.route(request, function (result, status) {
+                if (status == 'OK') {
+                    directionsRenderer.setDirections(result);
+
+                    const route = result.routes[0];
+                    const distance = route.legs[0].distance.text;
+                    const duration = route.legs[0].duration.text;
+
+                    const routeInfo = document.getElementById('route-info');
+                    routeInfo.innerHTML = `<p>Distancia: ${distance}</p><p>Duración: ${duration}</p>`;
+
+                    // Envía la información al servidor
+                    const formData = {
+                        puntoSalida: puntoSalidaLocation.toJSON(),
+                        puntoLlegada: puntoLlegadaLocation.toJSON(),
+                        transportista: document.getElementById('transportista').value,
+                        distancia: distance,
+                        duracion: duration
+                    };
+
+                    fetch('https://8eleven.glitch.me/rutas/guardar-ruta', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log(data);
+                            // Utiliza SweetAlert para mostrar un mensaje de éxito
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Ruta creada',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            // Utiliza SweetAlert para mostrar un mensaje de error
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error al crear la ruta'
+                            });
+                        });
+                } else {
+                    // Utiliza SweetAlert para mostrar un mensaje de error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: `No se pudo calcular la ruta. Status: ${status}`
+                    });
+                }
+            });
         }
+
 
 
 

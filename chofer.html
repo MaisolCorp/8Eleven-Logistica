@@ -9,7 +9,6 @@
     <meta name="author" content="">
 
     <title>Crear Transportista - 8Eleven</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -147,17 +146,17 @@
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="nombre"
-                                placeholder="Ingrese el nombre del transportista">
+                                placeholder="Ingrese el nombre del transportista" required>
                         </div>
                         <div class="mb-3">
                             <label for="telefono" class="form-label">Teléfono</label>
                             <input type="tel" class="form-control" id="telefono"
-                                placeholder="Ingrese el teléfono del transportista">
+                                placeholder="Ingrese el teléfono del transportista" required>
                         </div>
                         <div class="mb-3">
                             <label for="correo" class="form-label">Correo Electrónico</label>
                             <input type="email" class="form-control" id="correo"
-                                placeholder="Ingrese el correo electrónico del transportista">
+                                placeholder="Ingrese el correo electrónico del transportista" required>
                         </div>
                         <button type="button" class="btn btn-primary" onclick="guardarTransportista()">Guardar
                             Transportista</button>
@@ -185,10 +184,28 @@
         });
 
         function guardarTransportista() {
+            // Obtener valores de los campos
+            const nombre = document.getElementById('nombre').value;
+            const telefono = document.getElementById('telefono').value;
+            const correo = document.getElementById('correo').value;
+
+            // Validar que los campos obligatorios estén llenos
+            if (!nombre || !telefono || !correo) {
+                Swal.fire({
+                    title: 'Campos Vacíos',
+                    text: 'Por favor, complete todos los campos obligatorios.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar',
+                    confirmButtonColor: '#2F8D46'
+                });
+                return;
+            }
+            
+            // Construir el objeto FormData y enviar la solicitud
             const formData = {
-                nombre: document.getElementById('nombre').value,
-                telefono: document.getElementById('telefono').value,
-                correo: document.getElementById('correo').value
+                nombre: nombre,
+                telefono: telefono,
+                correo: correo
             };
 
             fetch('https://8eleven.glitch.me/transportistas/guardar-transportista', {
@@ -207,28 +224,29 @@
                 .then(data => {
                     console.log(data);
                     Swal.fire({
-                        title: "Transportista creado",
-                        text: "El transportista se ha creado correctamente",
-                        icon: "success",
-                        confirmButtonText: "Aceptar",
-                        confirmButtonColor: "#2F8D46"
+                        title: 'Transportista creado',
+                        text: 'El transportista se ha creado correctamente',
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor: '#2F8D46'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href = "gestion-chofer.html";
+                            window.location.href = 'gestion-chofer.html';
                         }
                     });
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     Swal.fire({
-                        title: "Error",
-                        text: "Ha ocurrido un error al crear el transportista",
-                        icon: "error",
-                        confirmButtonText: "Aceptar",
-                        confirmButtonColor: "#2F8D46"
+                        title: 'Error',
+                        text: 'Ha ocurrido un error al crear el transportista',
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor: '#2F8D46'
                     });
                 });
         }
+
     </script>
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
