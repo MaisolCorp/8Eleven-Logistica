@@ -257,7 +257,19 @@
             });
         }
 
+        let rutaGenerada = false;  // Variable para rastrear si se ha generado una ruta
+
         function submitForm() {
+            // Verificar si ya se generó una ruta
+            if (rutaGenerada) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Ruta ya generada',
+                    text: 'Ya se ha generado una ruta con los puntos de salida y llegada seleccionados.'
+                });
+                return;
+            }
+
             // Obtén las ubicaciones de los marcadores para enviar al servidor
             const puntoSalidaLocation = puntoSalidaMarker ? puntoSalidaMarker.getPosition() : null;
             const puntoLlegadaLocation = puntoLlegadaMarker ? puntoLlegadaMarker.getPosition() : null;
@@ -326,6 +338,9 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             });
+
+                            // Después de generar la ruta con éxito, limpiar campos
+                            limpiarCampos();
                         })
                         .catch(error => {
                             console.error('Error:', error);
@@ -345,6 +360,31 @@
                     });
                 }
             });
+        }
+
+        function limpiarCampos() {
+            // Limpiar puntos de salida y llegada
+            puntoSalidaMarker = null;
+            puntoLlegadaMarker = null;
+
+            // Limpiar campos de texto
+            document.getElementById('puntoSalidaInput').value = '';
+            document.getElementById('puntoLlegadaInput').value = '';
+            document.getElementById('transportista').value = '';
+
+            // Limpiar información de la ruta
+            document.getElementById('route-info').innerHTML = '';
+
+            // Limpiar el mapa
+            if (puntoSalidaMarker) {
+                puntoSalidaMarker.setMap(null);
+            }
+            if (puntoLlegadaMarker) {
+                puntoLlegadaMarker.setMap(null);
+            }
+
+            // Reiniciar la variable que rastrea si se generó una ruta
+            rutaGenerada = false;
         }
 
 
